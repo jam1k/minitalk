@@ -6,19 +6,19 @@
 #    By: jshestov <jshestov@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/22 10:18:43 by jshestov          #+#    #+#              #
-#    Updated: 2023/04/25 15:14:07 by jshestov         ###   ########.fr        #
+#    Updated: 2023/04/25 15:25:48 by jshestov         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 #Variables
 SERVER		= server
 CLIENT		= client
-CC			= cc
-CFLAGS		= -Wall -Wextra -Werror -g
+CC			= cc -o
+CFLAGS		= -Wall -Wextra -Werror
 RM 			= /bin/rm -f
 
-INCS_DIR	= ./
-LIBFT_DIR	= ./libft
+INCS_DIR	= ./inc/
+LIBFT_DIR	= ./libft/
 LIBFT		= $(LIBFT_DIR)/libft.a
 
 BUILD_DIR	= build
@@ -27,7 +27,7 @@ SRCS_SERVER		= 	server.c
 OBJS_SERVER = $(SRCS_SERVER:%.c=$(BUILD_DIR)/%.o)
 
 SRCS_CLIENT		= 	client.c
-OBJS_CLIENT = $(SRCS_SERVER:%.c=$(BUILD_DIR)/%.o)
+OBJS_CLIENT = $(SRCS_CLIENT:%.c=$(BUILD_DIR)/%.o)
 
 
 
