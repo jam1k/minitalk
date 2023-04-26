@@ -6,7 +6,7 @@
 /*   By: jshestov <jshestov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 11:27:59 by jshestov          #+#    #+#             */
-/*   Updated: 2023/04/26 10:45:51 by jshestov         ###   ########.fr       */
+/*   Updated: 2023/04/26 11:30:00 by jshestov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	ft_send_bits(int pid, char c)
 			kill(pid, SIGUSR1);
 		else
 			kill(pid, SIGUSR2);
-		usleep(25);
+		usleep(100);
 		bit++;
 	}
 }
@@ -47,7 +47,7 @@ int	main(int ac, char **av)
 			ft_send_bits(pid, av[2][i]);
 			i++;
 		}
-		ft_send_bits(pid, '\0');
+		ft_send_bits(pid, '\n');
 	}
 	return (0);
 }
