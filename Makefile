@@ -6,66 +6,45 @@
 #    By: jshestov <jshestov@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/22 10:18:43 by jshestov          #+#    #+#              #
-#    Updated: 2023/04/25 15:25:48 by jshestov         ###   ########.fr        #
+#    Updated: 2023/04/26 11:10:28 by jshestov         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-#Variables
-SERVER		= server
-CLIENT		= client
-CC			= cc -o
-CFLAGS		= -Wall -Wextra -Werror
-RM 			= /bin/rm -f
+SRCS_SRVR = server.c
+SRCS_CLNT = client.c
 
-INCS_DIR	= ./inc/
-LIBFT_DIR	= ./libft/
-LIBFT		= $(LIBFT_DIR)/libft.a
+DIRLIBFT = ./libft/
+SRVR_NAME = server
+CLNT_NAME = client
+LIBFTLIB = ./libft/libft.a
+INC = -I ./inc/
+CC = cc -o
+FLAGS = -Wextra -Wall -Werror
+AR = ar rcs
+OBJ = $(SRCS:.c=.o)
+REMOVE = rm -f
 
-BUILD_DIR	= build
-SRC_DIR		= ./
-SRCS_SERVER		= 	server.c
-OBJS_SERVER = $(SRCS_SERVER:%.c=$(BUILD_DIR)/%.o)
+all: $(SRVR_NAME) $(CLNT_NAME)
 
-SRCS_CLIENT		= 	client.c
-OBJS_CLIENT = $(SRCS_CLIENT:%.c=$(BUILD_DIR)/%.o)
+$(SRVR_NAME):
+		cd $(DIRLIBFT) && $(MAKE)
+		$(CC) $(SRVR_NAME) $(INC) $(FLAGS) $(SRCS_SRVR) $(LIBFTLIB)
 
-
-
-all: $(SERVER) $(CLIENT)
-
-$(SERVER): $(OBJS_SERVER) $(LIBFT)
-	@echo "Linking $@"
-	@$(CC) -o $(SERVER) $(OBJS_SERVER) $(LIBFT)
-	@echo "Server Done!"
-
-$(CLIENT): $(OBJS_CLIENT)
-	@echo "Linking $@"
-	@$(CC) -o $(CLIENT) $(OBJS_CLIENT)
-	@echo "Client Done!"
-
-
-$(OBJS_SERVER): $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
-	@mkdir -p $(@D)
-	@echo "Compiling $<"
-	@$(CC) $(CFLAGS) -I $(INCS_DIR) -I $(LIBFT_DIR) -c $< -o $@
-
-$(OBJS_CLIENT): $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
-	@mkdir -p $(@D)
-	@echo "Compiling $<"
-	@$(CC) $(CFLAGS) -I $(INCS_DIR) -I $(LIBFT_DIR) -c $< -o $@
-
-$(LIBFT):
-	make -C $(LIBFT_DIR)
-	cp $(LIBFT) $(NAME)
+$(CLNT_NAME):
+		$(CC) $(CLNT_NAME) $(INC) $(FLAGS) $(SRCS_CLNT) $(LIBFTLIB)
 
 clean:
-	make clean -C $(LIBFT_DIR)
-	$(RM) -r $(BUILD_DIR)
+		$(REMOVE) $(CLNT_NAME)
+		$(REMOVE) $(SRVR_NAME)
+		cd $(DIRLIBFT) && $(MAKE) clean
 
 fclean: clean
-	make fclean -C $(LIBFT_DIR)
-	$(RM) $(SERVER) $(CLIENT)
+		$(REMOVE) $(CLNT_NAME)
+		$(REMOVE) $(SRVR_NAME)
+		cd $(DIRLIBFT) && $(MAKE) fclean
 
-re: fclean all
+re:	fclean all
+	cd $(DIRLIBFT) && $(MAKE) fclean
+	cd $(DIRLIBFT) && $(MAKE) all
 
 .PHONY: all clean fclean re
